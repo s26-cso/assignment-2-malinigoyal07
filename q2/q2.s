@@ -1,5 +1,6 @@
 .section .data
 fmt: .string "%d "
+newline: .string "\n"
 
 .section .text
 .globl main 
@@ -120,7 +121,7 @@ print:
     addi s4, x0, 0              # i = 0
 
 print_loop:
-    bge s4, s3, exit            # if i>=n
+    bge s4, s3, end             # if i>=n
 
     slli t3, s4, 3
     add t3, s1, t3              # t3 = &result[i]
@@ -131,6 +132,13 @@ print_loop:
 
     addi s4, s4, 1              # s4++
     j print_loop
+
+
+end:
+    la a0, newline
+    call printf
+    j exit
+
 
 exit:
     ld ra, 48(sp)
