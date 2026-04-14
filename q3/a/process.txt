@@ -1,0 +1,25 @@
+riscv64-unknown-linux-gnu-objdump -s target_malinigoyal07 | grep "passed"
+riscv64-unknown-linux-gnu-objdump -d target_malinigoyal07 | grep "<strcmp>"
+riscv64-unknown-linux-gnu-objdump -d target_malinigoyal07 | grep -A 5 -B 10 "1064c:" > output.txt 
+  
+   1062e:	e022                	sd	s0,0(sp)
+   10630:	840a                	mv	s0,sp
+   10632:	7139                	addi	sp,sp,-64
+   10634:	00074517          	auipc	a0,0x74
+   10638:	94453503          	ld	a0,-1724(a0) # 83f78 <_GLOBAL_OFFSET_TABLE_+0x8>
+   1063c:	858a                	mv	a1,sp
+   1063e:	297040ef          	jal	150d4 <__scanf>
+   10642:	850a                	mv	a0,sp
+   10644:	00074597          	auipc	a1,0x74
+   10648:	93c5b583          	ld	a1,-1732(a1) # 83f80 <_GLOBAL_OFFSET_TABLE_+0x10>
+   1064c:	5f7170ef          	jal	28442 <strcmp>
+   10650:	e901                	bnez	a0,10660 <.fail>
+
+0000000000010652 <.pass>:
+   10652:	00074517          	auipc	a0,0x74
+   10656:	93653503          	ld	a0,-1738(a0) # 83f88 <_GLOBAL_OFFSET_TABLE_+0x18>
+
+
+riscv64-unknown-linux-gnu-objdump -s --start-address=0x83f80 --stop-address=0x83f88 target_malinigoyal07
+riscv64-unknown-linux-gnu-objdump -s --start-address=0x5e091 --stop-address=0x5e0b0 target_malinigoyal07
+grep bDY+
