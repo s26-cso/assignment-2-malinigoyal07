@@ -7,14 +7,14 @@ newline: .string "\n"
 
 main:
                                 
-    addi sp, sp, -56            #not using t0-t2 - might get wiped out by printf etc
-    sd ra, 48(sp)
-    sd s0, 40(sp)
-    sd s1, 32(sp)
-    sd s2, 24(sp)
-    sd s3, 16(sp)       
-    sd s4, 8(sp)
-    sd s5, 0(sp)
+    addi sp, sp, -64            #not using t0-t2 - might get wiped out by printf etc
+    sd ra, 56(sp)
+    sd s0, 48(sp)
+    sd s1, 40(sp)
+    sd s2, 32(sp)
+    sd s3, 24(sp)       
+    sd s4, 16(sp)
+    sd s5, 8(sp)
 
     addi s3, a0, -1             # n = argc - 1, s3 = n
     beq s3, x0, exit
@@ -137,18 +137,28 @@ print_loop:
 end:
     la a0, newline
     call printf
+
+    mv a0, s0           
+    call free           
+
+    mv a0, s1           
+    call free         
+
+    mv a0, s2          
+    call free
+
     j exit
 
 
 exit:
-    ld ra, 48(sp)
-    ld s0, 40(sp)
-    ld s1, 32(sp)
-    ld s2, 24(sp)
-    ld s3, 16(sp)       
-    ld s4, 8(sp)        
-    ld s5, 0(sp)
-    addi sp, sp, 56
+    ld ra, 56(sp)
+    ld s0, 48(sp)
+    ld s1, 40(sp)
+    ld s2, 32(sp)
+    ld s3, 24(sp)       
+    ld s4, 16(sp)        
+    ld s5, 8(sp)
+    addi sp, sp, 64
     addi a0, x0, 0              # ret 0
     ret
     
