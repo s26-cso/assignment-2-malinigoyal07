@@ -1,5 +1,6 @@
 .section .data
 fmt: .string "%d "
+fmt_last: .string "%d"
 newline: .string "\n"
 
 .section .text
@@ -119,9 +120,12 @@ skip:
 
 print:
     addi s4, x0, 0              # i = 0
+    addi s5, s3, -1             # s5 = n - 1
+
+    blt s5, x0, end
 
 print_loop:
-    bge s4, s3, end             # if i>=n
+    bge s4, s5, print_last      # if i>=n-1
 
     slli t3, s4, 3
     add t3, s1, t3              # t3 = &result[i]
@@ -132,6 +136,17 @@ print_loop:
 
     addi s4, s4, 1              # s4++
     j print_loop
+
+
+print_last:
+    slli t3, s4, 3
+    add t3, s1, t3              # t3 = &result[i]
+    ld a1, 0(t3)                # a1 = result[i]
+
+    la a0, fmt_last             # print without space
+    call printf
+
+    j end
 
 
 end:
